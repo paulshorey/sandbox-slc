@@ -117,7 +117,7 @@ process.app.all('/_hook', function(request, response) {});
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // API :: get test
-process.app.get('/api/test', function(request, response) {
+process.app.get('/test', function(request, response) {
     process.console.log('get /test');
     response.setHeader('Content-Type', 'application/json');
     response.writeHead(200);
