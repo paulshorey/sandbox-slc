@@ -6,8 +6,8 @@
 # start app
 # iptables -A PREROUTING -t nat -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 1080
 # #iptables -A PREROUTING -t nat -i eth0 -p tcp --dport 443 -j REDIRECT --to-port 1080
-ufw allow 80/tcp
-ufw allow 443/tcp
+# ufw allow 80/tcp
+# ufw allow 443/tcp
 
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/ps1-git
@@ -18,7 +18,7 @@ git pull
 i=0;
 while true; do
 	i=$[$i+1]
-	echo node www.js \#$i
-	node www.js
+	echo node api.js \#$i
+	node api.js
 	sleep 5
 done
