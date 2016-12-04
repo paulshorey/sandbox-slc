@@ -108,7 +108,7 @@ process.timestamp = function() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // HOOK
-process.app.all('/_hook', function(request, response) {});
+// process.app.all('/_hook', function(request, response) {});
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -117,24 +117,46 @@ process.app.all('/_hook', function(request, response) {});
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // API :: get test
-process.app.get('/test', function(request, response) {
-    process.console.log('get /test');
-    response.setHeader('Content-Type', 'application/json');
-    response.writeHead(200);
-    response.write(JSON.stringify({
-        data: {
-            app: "APP on port :2080"
-        },
-        error: 0
-    }, null, "\t"));
-    response.end();
-});
+// process.app.get('/test', function(request, response) {
+//     process.console.log('get /test');
+//     response.setHeader('Content-Type', 'application/json');
+//     response.writeHead(200);
+//     response.write(JSON.stringify({
+//         data: {
+//             app: "APP on port :2080"
+//         },
+//         error: 0
+//     }, null, "\t"));
+//     response.end();
+// });
+
+var static = require('node-static');
+var fileServer = new static.Server('./www');
+require('http').createServer(function (request, response) {
+    
+    request.url = request.url.replace('luxul/','luxul/build/');
+    request.addListener('end', function () {
+        fileServer.serve(request, response, function (err, result) {
+            if (err) { // There was an error serving the file 
+                console.error("Error serving " + request.url + " - " + err.message);
+                response.writeHead(err.status, err.headers);
+                response.end();
+            } else {
+              response.end();
+          }
+        });
+    }).resume();
+    request.setTimeout(1000, function () {
+        request.abort();
+    });
+
+}).listen(process.env.PORT);
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // start
-var httpServer = process.http.createServer(process.app);
-httpServer.listen(process.env.PORT);
+// var httpServer = process.http.createServer(process.app);
+// httpServer.listen(process.env.PORT);
 
 // var httpsServer = process.https.createServer({key: process.fs.readFileSync('/etc/letsencrypt/live/api.allevents.nyc/privkey.pem', 'utf8'), cert: process.fs.readFileSync('/etc/letsencrypt/live/api.allevents.nyc/fullchain.pem', 'utf8')}, process.app);
 // httpsServer.listen(443);

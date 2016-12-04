@@ -29,9 +29,9 @@ gulp.task('lint', function() {
 
 
 // TASK :: SERVE
-gulp.task('serve', function() {
+gulp.task('app', function() {
     if (node) node.kill()
-    node = spawn('node', ['www.js'], {
+    node = spawn('node', ['app.js'], {
         stdio: 'inherit'
     })
     node.on('close', function(code) {
@@ -40,12 +40,16 @@ gulp.task('serve', function() {
         }
     });
 });
-gulp.task('default', function() {
-    gulp.run('serve')
-    gulp.watch(['./*.js'], function() {
-        gulp.run('serve')
+gulp.task('api', function() {
+    if (node) node.kill()
+    node = spawn('node', ['api.js'], {
+        stdio: 'inherit'
     })
-    gulp.run('lint');
+    node.on('close', function(code) {
+        if (code === 8) {
+            gulp.log('Error detected, waiting for changes...');
+        }
+    });
 });
 
 

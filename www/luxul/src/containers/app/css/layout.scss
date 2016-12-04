@@ -1,0 +1,110 @@
+/* 
+=====
+PAGE
+=====
+*/
+html {
+	/* Set responsive breakpoints and sizes here, then only style each element once, no more random media queries for text sizes! These numbers still need to be fine tuned. */
+	/* These REMs can be used to responsively adjust not only font-size, but padding, margin, image widths, anything! */
+	font-size:16.75px; 
+	@media (max-width: 1800px) {
+		font-size:16.75px;
+	}
+	@media (max-width: 1200px) {
+		font-size:15.5px;
+	}
+	@media (max-width: 900px) {
+		font-size:14.25px;
+	}
+	@media (max-width: 600px) {
+		font-size:13px;
+	}
+	@media (max-width: 500px) {
+		font-size:12px;
+	}
+}
+
+/* 
+======
+RESET
+======
+*/
+body {
+	max-width:100%;
+	overflow-x:hidden;
+	margin: 0;
+	padding: 0;
+	font-family: sans-serif;
+	background:#f4f4f4;
+}
+heading, section, article {
+	display:block;
+}
+
+/* 
+=====
+LAYOUT
+=====
+*/
+#App {
+	padding:61px 0;
+}
+
+#AppTop {
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    z-index:100000;
+    // material-ui overrides 
+    button {
+        margin-top:4px !important;
+    }
+    h1 {
+        height:56px !important;
+        line-height:56px !important;
+        font-size:1.5rem !important;
+    }
+    .drawerTop {
+    	// overflowY: auto;
+    	// overflowX: hidden;
+    	// height:100vh;
+    }
+    .drawerBottom {
+    	position: absolute;
+    	bottom: 0;
+    	width: 100%;
+    	overflow: hidden;
+    	.Card {
+    		background:rgb(0, 188, 212);
+    		padding:0 !important;
+    		> * {
+    			> * {
+		    		padding:0 !important;
+	    		}
+    		}
+    		* {
+    			background:rgb(0, 188, 212);
+    		}
+    	}
+    	* {
+    		color:#fff !important;
+    	}
+    }
+}
+#AppBottom {
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    z-index:100;
+}
+
+
+/*
+=====
+Material UI
+=====
+*/
+.Drawer {
+}

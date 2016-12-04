@@ -1,0 +1,109 @@
+.containerWireless {
+        .sectionWireless {
+            display:block;
+            vertical-align:top;
+            > * {
+                display:inline-block;
+                vertical-align:top;
+                width:calc(100vw - 2rem);
+            }
+            @media (min-width:700px) {
+               display:flex;
+                &.section1 {
+                    > * {
+                        max-width:calc(100vw - 1rem);
+                    }
+                }
+                &.section2 {
+                    > * {
+                        max-width:calc(50vw - 1rem);
+                    }
+                }
+            }
+        }
+
+
+        /*
+            wireless Components
+        */
+        .componentWireless {
+            &[disabled] {
+                position:relative;
+                display:block !important;
+                opacity:0.5 !important;
+                -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+                filter: grayscale(100%);
+                &:after {
+                    content: '';
+                    position:absolute;
+                    width:100%;
+                    height:100%;
+                    top:0;
+                    left:0;
+                    opacity:0.66;
+                    z-index:100;
+                }
+            }
+        }
+        .componentWireless:not(.componentShell),
+        .componentShellContent {
+            margin:1rem;
+            padding:1rem;
+            background:#fff;
+            &[disabled] {
+                display:none;
+            }
+        }
+        .componentShell {
+            width:100%;
+        }
+
+        .componentWirelessRadios {
+        }
+
+        .componentWirelessProfilesEdit {
+            .WirelessRadios {
+                width: 300px;
+                border: 1px solid black;
+            }
+            .profileForm {
+                display: flex;
+                flex-direction: column;
+                width: 300px;
+                text-align: left;
+                border: 1px solid black;
+            }
+            .profileTable {
+                border: 1px solid black;
+            }
+        }
+
+        .componentWirelessProfilesDisplay {
+        }
+
+}
+
+/*
+	FORMS
+*/
+.form-title {
+    margin:0.25rem auto 0.5rem;
+    font-size:1.25rem;
+    font-weight:bold;
+    display:block;
+}
+.mui-fields {
+}
+.mui-buttons {
+    margin:18px 0;
+}
+.mui-SelectField {
+    font-size:1rem;
+    margin:0 0 -10px 0;
+    hr {
+        display:none;
+    }
+    input {
+        border:solid 1px #efefef;
+    }
+}
