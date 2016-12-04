@@ -11,9 +11,10 @@
 
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/ps1-git
-cd /www/sand-slc
+cd /www/sand-slc;
 git reset HEAD -\-hard;
-git pull
+git pull;
+npm install;
 
 i=0;
 while true; do
