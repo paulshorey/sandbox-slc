@@ -123,7 +123,7 @@ process.app.get('/test', function(request, response) {
     response.writeHead(200);
     response.write(JSON.stringify({
         data: {
-            test: "again test data"
+            test: "_deploy.js .json updated"
         },
         error: 0
     }, null, "\t"));
