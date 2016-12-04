@@ -1,33 +1,45 @@
-# sudo /opt/letsencrypt/letsencrypt-auto certonly -a webroot --webroot-path=/usr/share/nginx/html -d api.allevents.nyc
+#sudo /opt/letsencrypt/letsencrypt-auto certonly -a webroot --webroot-path=/www/html -d domain.com
 
-# /opt/letsencrypt/letsencrypt-auto renew >> /var/log/le-renew.log
-# /etc/init.d/nginx reload
-
-
-
-
-# vim /etc/nginx/sites-available/default
+sudo /opt/letsencrypt/letsencrypt-auto renew
+/etc/init.d/nginx reload
 
 # server {
-#   listen 80;
-#   server_name localhost;
-#   return 301 https://$host$request_uri;
-# }
-# server {
-#   listen 443 ssl;
-#   server_name localhost;
+#         listen 80;
+#         listen [::]:80;
 
-#   ssl_certificate /etc/letsencrypt/live/api.allevents.nyc/fullchain.pem;
-#   ssl_certificate_key /etc/letsencrypt/live/api.allevents.nyc/privkey.pem;
+#         listen 443 ssl;
+#         listen [::]:443 ssl;
 
-#   root /usr/share/nginx/html;
-#   index index.html index.htm index.nginx-debian.html;
+#         #root /www/html;
+#         #index index.html index.htm index.nginx-debian.html;
 
-#   location / {
-#     try_files $uri $uri/ =404;
-#   }
+#         ssl_certificate /etc/letsencrypt/live/sslcs.us/fullchain.pem;
+#         ssl_certificate_key /etc/letsencrypt/live/sslcs.us/privkey.pem;
 
-#   location ^~ /.well-known/ {
-#     allow all;
-#   }
+#         location ~ /html {
+#                 root /www; #this will serve from /www/html
+#                 allow all;
+#         }
+
+#         location ~ /.well-known {
+#                 root /www/html;
+#                 allow all;
+#         }
+#         location ~ /.well-known/acme-challenge {
+#                 root /www/html;
+#                 allow all;
+#         }
+
+#         location / {
+#                 proxy_set_header   X-Forwarded-For $remote_addr;
+#                 proxy_set_header   Host $http_host;
+#                 proxy_pass         "http://127.0.0.1:2080";
+#         }
+
+#         location /api {
+#                 proxy_set_header   X-Forwarded-For $remote_addr;
+#                 proxy_set_header   Host $http_host;
+#                 proxy_pass         "http://127.0.0.1:1080";
+#         }
+
 # }
