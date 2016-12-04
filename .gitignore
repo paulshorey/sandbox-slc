@@ -1,0 +1,9 @@
+.DS_STORE
+node_modules
+npm-debug
+.log
+err*
+out
+config
+public/console
+uploads
