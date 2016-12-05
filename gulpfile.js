@@ -59,6 +59,12 @@ gulp.task('app', function() {
         gulp.run('serveApp');
     });
 });
+gulp.task('api', function() {
+    gulp.run('serveApi')
+    gulp.watch(['./*.js'], function() {
+        gulp.run('serveApi');
+    });
+});
 
 // clean up if an error goes unhandled.
 process.on('exit', function() {

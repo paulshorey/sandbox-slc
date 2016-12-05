@@ -116,18 +116,36 @@ process.app.all('/_hook', function(request, response) {});
 // API
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// API :: get test
-process.app.get('/api/test', function(request, response) {
-    process.console.log('get /test');
-    response.setHeader('Content-Type', 'application/json');
-    response.writeHead(200);
-    response.write(JSON.stringify({
-        data: {
-            api: "api on port :1080"
-        },
-        error: 0
-    }, null, "\t"));
-    response.end();
+// API :: pst writeJSON
+process.app.all('/api/0/writeJSON', function(request, response) {
+    process.console.log('post /writeJSON');
+    var domain = request.get('host');
+    var appname = domain.split('.')[0]; // subdomain, or domain
+    switch(appname) {
+
+        case 'luxul':
+            response.setHeader('Content-Type', 'application/json');
+            response.writeHead(200);
+            response.write(JSON.stringify({
+                data: [
+                    {appname: appname}
+                ],
+                error: 0
+            }, null, "\t"));
+            response.end();
+        break;
+
+        default:
+            response.setHeader('Content-Type', 'application/json');
+            response.writeHead(500);
+            response.write(JSON.stringify({
+                message: [
+                    'app not found - put app url as the subdomain'
+                ],
+                error: 1
+            }, null, "\t"));
+            response.end();
+    }
 });
 
 

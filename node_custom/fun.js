@@ -67,4 +67,18 @@ exports.pad = function(str) {
 exports.capitalize = function(str) {
 	str = str.toLowerCase();
 	return str.charAt(0).toUpperCase() + str.slice(1);
-}
+};
+
+exports.decycle = function(a,b){"use strict";var c=[],d=[];return function a(e,f){var g,h;return void 0!==b&&(e=b(e)),"object"!=typeof e||null===e||e instanceof Boolean||e instanceof Date||e instanceof Number||e instanceof RegExp||e instanceof String?e:(g=c.indexOf(e),g>=0?{$ref:d[g]}:(c.push(e),d.push(f),Array.isArray(e)?(h=[],e.forEach(function(b,c){h[c]=a(b,f+"["+c+"]")})):(h={},Object.keys(e).forEach(function(b){h[b]=a(e[b],f+"["+JSON.stringify(b)+"]")})),h))}(a,"$")};
+
+exports.shallow_copy = function(obj) {
+	var out = {};
+	for (var i in obj) {
+		if (typeof obj[i]=='object' && obj[i]!=null) {
+			out[i] = {};
+		} else {
+			out[i] = obj[i];
+		}
+	}
+	return out;
+};
