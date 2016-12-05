@@ -132,21 +132,31 @@ process.timestamp = function() {
 
 var static = require('node-static');
 var fileServer = new static.Server('./www');
-require('http').createServer(function (request, response) {
-    
-    request.url = request.url.replace('luxul/','luxul/build/');
-    request.addListener('end', function () {
-        fileServer.serve(request, response, function (err, result) {
-            if (err) { // There was an error serving the file 
-                console.error("Error serving " + request.url + " - " + err.message);
-                response.writeHead(err.status, err.headers);
-                response.end();
-            } else {
-              response.end();
-          }
+require('http').createServer(function(request, response) {
+    request.headers.host = request.headers.host.replace('www.', '');
+    var domain = request.headers.host;
+    var appname = domain.split('.')[0]; // subdomain, or domain
+
+    // start file server
+    request.addListener('end', function() {
+        // serve requested file from build folder
+        request.url = appname + '/build' + request.url;
+        fileServer.serve(request, response, function(err, result) {
+            if (err) {
+                // serve index.html
+                request.url = request.url + '/index.html';
+                fileServer.serve(request, response, function(err, result) {
+                    if (err) {
+                        // serve error
+                        response.writeHead(err.status, err.headers);
+                    }
+                });
+            }
+            // end
+            response.end();
         });
     }).resume();
-    request.setTimeout(1000, function () {
+    request.setTimeout(1000, function() {
         request.abort();
     });
 

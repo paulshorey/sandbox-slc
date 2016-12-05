@@ -6,6 +6,31 @@ var spawn = require('child_process').spawn;
 var node;
 
 
+// TASK :: SERVE
+gulp.task('serveApp', function() {
+    if (node) node.kill()
+    node = spawn('node', ['app.js'], {
+        stdio: 'inherit'
+    })
+    node.on('close', function(code) {
+        if (code === 8) {
+            gulp.log('Error detected, waiting for changes...');
+        }
+    });
+});
+gulp.task('serveApi', function() {
+    if (node) node.kill()
+    node = spawn('node', ['api.js'], {
+        stdio: 'inherit'
+    })
+    node.on('close', function(code) {
+        if (code === 8) {
+            gulp.log('Error detected, waiting for changes...');
+        }
+    });
+});
+
+
 // TASK :: LINT
 gulp.task('jsLint', function() {
     return gulp.src(['*.js'])
@@ -28,30 +53,12 @@ gulp.task('lint', function() {
 });
 
 
-// TASK :: SERVE
 gulp.task('app', function() {
-    if (node) node.kill()
-    node = spawn('node', ['app.js'], {
-        stdio: 'inherit'
-    })
-    node.on('close', function(code) {
-        if (code === 8) {
-            gulp.log('Error detected, waiting for changes...');
-        }
+    gulp.run('serveApp')
+    gulp.watch(['./*.js'], function() {
+        gulp.run('serveApp');
     });
 });
-gulp.task('api', function() {
-    if (node) node.kill()
-    node = spawn('node', ['api.js'], {
-        stdio: 'inherit'
-    })
-    node.on('close', function(code) {
-        if (code === 8) {
-            gulp.log('Error detected, waiting for changes...');
-        }
-    });
-});
-
 
 // clean up if an error goes unhandled.
 process.on('exit', function() {
