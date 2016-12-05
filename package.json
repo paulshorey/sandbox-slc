@@ -11,6 +11,7 @@
     "body-parser": "latest",
     "colors": "latest",
     "express": "latest",
+    "mkdirp": "^0.5.1",
     "moment": "latest",
     "moment-timezone": "latest",
     "node-static": "^0.7.9",

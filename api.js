@@ -17,6 +17,7 @@ process.http = require('http');
 process.https = require('https');
 process.q = require('q');
 process.url = require('url');
+process.mkdirp = require('mkdirp');
 // env
 process.env.PORT = 1080;
 process.env.PATH = __dirname;
@@ -113,38 +114,192 @@ process.app.all('/_hook', function(request, response) {});
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// API
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// API :: pst writeJSON
-process.app.all('/api/0/writeJSON', function(request, response) {
-    process.console.log('post /writeJSON');
+// API :: put
+process.app.put('/api/0', function(request, response) {
+    process.console.log('put /0 '+request.body.action);
+    // vars
     var domain = request.get('host');
     var appname = domain.split('.')[0]; // subdomain, or domain
+    response.setHeader('Content-Type', 'application/json');
+    // default dev app
+    if (appname.substr(0,3)=='127') {
+        appname = 'luxul';
+    }
+    // switch apps
     switch(appname) {
 
-        case 'luxul':
-            response.setHeader('Content-Type', 'application/json');
-            response.writeHead(200);
-            response.write(JSON.stringify({
-                data: [
-                    {appname: appname}
-                ],
-                error: 0
-            }, null, "\t"));
-            response.end();
-        break;
+    /*
+        put :: luxul
+    */
+    case 'luxul':
+        switch (request.body.action) {
 
+        /*
+            put :: luxul :: json
+            -
+            write file in /api/{appname}/json/{POST->jsonKey}.json
+            content is {POST->jsonValue}
+        */
+        case 'json':
+            var filename = './api/'+appname+'/json/'+request.body.jsonKey+'.json';
+            process.mkdirp(process.fun.dirname(filename), function (err) {
+                if (!err) {
+                    process.fs.writeFile(
+                        filename,
+                        JSON.stringify(request.body.jsonValue),
+                        'utf8',
+                        function(error) {
+                            if (!error) {
+                                // success
+                                response.writeHead(200);
+                                response.write(JSON.stringify({
+                                    data: [
+                                        {}
+                                    ],
+                                    error: 0
+                                }, null, "\t"));
+                                response.end();
+                            } else {
+                                // error
+                                var errorValue = "Couldn't write file "+request.body.jsonKey+".json";
+                                response.writeHead(500);
+                                response.write(JSON.stringify({
+                                    message: [
+                                        errorValue
+                                    ],
+                                    error: 1
+                                }, null, "\t"));
+                                response.end();
+                                process.console.error(errorValue);
+                            }
+                        }
+                    );
+                } else {
+                    var errorValue = 'could not make dir "'+filepath+'"';
+                    process.console.error(errorValue);
+                }
+            });
+
+        break;
         default:
-            response.setHeader('Content-Type', 'application/json');
+            var errorValue = 'action "'+request.body.action+'" not found';
             response.writeHead(500);
             response.write(JSON.stringify({
                 message: [
-                    'app not found - put app url as the subdomain'
+                    errorValue
                 ],
                 error: 1
             }, null, "\t"));
             response.end();
+        }
+
+    break;
+
+    /*
+        put :: fail
+    */
+    default:
+        var errorValue = 'app "'+appname+'" not found - use app url as the subdomain';
+        response.writeHead(500);
+        response.write(JSON.stringify({
+            message: [
+                errorValue
+            ],
+            error: 1
+        }, null, "\t"));
+        response.end();
+    }
+});
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// API :: get
+process.app.get('/api/0', function(request, response) {
+    process.console.log('get /0 '+request.query.action);
+    // vars
+    var domain = request.get('host');
+    var appname = domain.split('.')[0]; // subdomain, or domain
+    response.setHeader('Content-Type', 'application/json');
+
+    // default dev app
+    if (appname.substr(0,3)=='127') {
+        appname = 'luxul';
+    }
+    // switch apps
+    switch(appname) {
+
+    /*
+        get :: luxul
+    */
+    case 'luxul':
+        switch (request.query.action) {
+
+        /*
+            get :: luxul :: json
+            -
+            read file from /api/{appname}/json/{POST->jsonKey}.json
+        */
+        case 'json':
+            var filename = './api/'+appname+'/json/'+request.query.jsonKey+'.json';
+            process.fs.readFile(
+                filename,
+                'utf8',
+                function(error,jsonValue) {
+                    if (!error) {
+                        // success
+                        response.writeHead(200);
+                        response.write(JSON.stringify({
+                            data: [
+                                jsonValue
+                            ],
+                            error: 0
+                        }, null, "\t"));
+                        response.end();
+                    } else {
+                        // error
+                        var errorValue = "Couldn't read file "+request.query.jsonKey+".json";
+                        response.writeHead(500);
+                        response.write(JSON.stringify({
+                            message: [
+                                errorValue
+                            ],
+                            error: 1
+                        }, null, "\t"));
+                        response.end();
+                        process.console.error(errorValue);
+                    }
+                }
+            );
+
+        break;
+        default:
+            var errorValue = 'action "'+request.query.action+'" not found';
+            response.writeHead(500);
+            response.write(JSON.stringify({
+                message: [
+                    errorValue
+                ],
+                error: 1
+            }, null, "\t"));
+            response.end();
+        }
+
+    break;
+
+    /*
+        get :: fail
+    */
+    default:
+        var errorValue = 'app "'+appname+'" not found - use app url as the subdomain';
+        response.writeHead(500);
+        response.write(JSON.stringify({
+            message: [
+                errorValue
+            ],
+            error: 1
+        }, null, "\t"));
+        response.end();
     }
 });
 

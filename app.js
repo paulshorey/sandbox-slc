@@ -131,9 +131,9 @@ process.timestamp = function() {
 // });
 
 var static = require('node-static');
-var fileServer = new static.Server('./www');
+var fileServer = new static.Server('./app');
 require('http').createServer(function(request, response) {
-    request.headers.host = request.headers.host.replace('www.', '');
+    request.headers.host = request.headers.host.replace('app.', '');
     var domain = request.headers.host;
     var appname = domain.split('.')[0]; // subdomain, or domain
 

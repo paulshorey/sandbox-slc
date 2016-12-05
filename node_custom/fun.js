@@ -82,3 +82,7 @@ exports.shallow_copy = function(obj) {
 	}
 	return out;
 };
+
+exports.dirname = function(filename) {
+	return filename.substring(0, Math.max(filename.lastIndexOf("/"), filename.lastIndexOf("\\")));
+};
