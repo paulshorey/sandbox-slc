@@ -122,7 +122,7 @@ process.app.put('/api/0', function(request, response) {
     var appname = domain.split('.')[0]; // subdomain, or domain
     response.setHeader('Content-Type', 'application/json');
     // default dev app
-    if (appname.substr(0,3)=='127') {
+    if (appname=='localhost:'+process.env.PORT || appname.substr(0,3)=='127') {
         appname = 'luxul';
     }
     // switch apps
@@ -223,7 +223,7 @@ process.app.get('/api/0', function(request, response) {
     response.setHeader('Content-Type', 'application/json');
 
     // default dev app
-    if (appname.substr(0,3)=='127') {
+    if (appname=='localhost:'+process.env.PORT || appname.substr(0,3)=='127') {
         appname = 'luxul';
     }
     // switch apps
