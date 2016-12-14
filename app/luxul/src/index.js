@@ -5,7 +5,6 @@ import { Provider } from 'react-redux';
 import { Router, Route, DefaultRoute, browserHistory } from 'react-router';
 // redux
 import { applyMiddleware, createStore, combineReducers } from 'redux';
-import { reducer as formReducer } from 'redux-form';
 import createLogger from 'redux-logger';
 // react/redux
 import { syncHistoryWithStore, routerReducer, routerMiddleware, push } from 'react-router-redux';
@@ -33,7 +32,6 @@ let store = createStore(
         test: testReducer,
         stream: streamReducer,
         wireless: wirelessReducer,
-        form: formReducer,
         routing: routerReducer,
         app: appReducer
     }),

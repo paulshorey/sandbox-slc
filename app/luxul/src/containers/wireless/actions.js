@@ -11,7 +11,6 @@ export function handlers(){
 			this.dispatch(this.events.save__radio(radio, options))
 		},
 		save__profileSettings: function(profileSettings) { 
-			console.log('profileSettings',profileSettings);
 			this.dispatch(this.events.save__profileSettings(profileSettings))
 		},
 

@@ -1,18 +1,14 @@
 /*
     DUMB component - it don't know state
 */
-// import * as vars from '../vars';
 
 import React from 'react';
-// import {reduxForm} from 'redux-form';
-//import {TextField, Toggle} from 'redux-form-material-ui';
 
 import Paper from 'material-ui/Paper';
 import SelectField from 'material-ui/SelectField';
 import TextField from 'material-ui/TextField';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
-//import CSSModules from 'react-css-modules';
 
 export default class WirelessProfilesEdit extends React.PureComponent {
     render() {
@@ -20,8 +16,7 @@ export default class WirelessProfilesEdit extends React.PureComponent {
             radios,
             profileSettings,
             events,
-            handlers,
-            handleSubmit
+            handlers
         } = this.props;
         return (
             <Paper zDepth={4} className="componentWireless componentWirelessProfilesEdit" disabled={ ! this.props.radios.all.enabled}>
@@ -91,9 +86,3 @@ export default class WirelessProfilesEdit extends React.PureComponent {
         )
     }
 }
-//export default CSSModules(WirelessProfilesEdit, styles);
-
-// export default reduxForm({
-//     form: 'profile',
-//     initialValues: {}
-// })(WirelessProfilesEdit);

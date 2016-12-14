@@ -1,7 +1,6 @@
 /*
     DUMB component - it don't know state
 */
-
 import React from 'react';
 
 import Paper from 'material-ui/Paper';
