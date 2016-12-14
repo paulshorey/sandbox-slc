@@ -1,63 +1,80 @@
+/*
+    DUMB component - it don't know state
+*/
+// import * as vars from '../vars';
+
 import React from 'react';
-import {reduxForm, Field} from 'redux-form';
+// import {reduxForm} from 'redux-form';
+//import {TextField, Toggle} from 'redux-form-material-ui';
 
 import Paper from 'material-ui/Paper';
-import {TextField, SelectField, Toggle} from 'redux-form-material-ui';
+import SelectField from 'material-ui/SelectField';
+import TextField from 'material-ui/TextField';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
 //import CSSModules from 'react-css-modules';
 
-class WirelessProfilesEdit extends React.PureComponent {
+export default class WirelessProfilesEdit extends React.PureComponent {
     render() {
-        const {
+        let {
             radios,
+            profileSettings,
+            events,
+            handlers,
             handleSubmit
         } = this.props;
         return (
             <Paper zDepth={4} className="componentWireless componentWirelessProfilesEdit" disabled={ ! this.props.radios.all.enabled}>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={(e)=>{e.preventDefault();}}>
                     <h3 className="form-title">Add WiFi Profile:</h3>
                     <div className="mui-fields">
-                        <Field
+                        <SelectField
                             name="radio"
-                            component={SelectField}
                             floatingLabelText="Band:"
                             fullWidth
-                        >
+                            value={profileSettings.radio}
+                            onChange={ (event, key, value) => { handlers.save__profileSettings({radio:value}); } }
+                            >
+                            <MenuItem value="first" primaryText="first"/>
                             <MenuItem value="2.4GHz" primaryText="2.4GHz" disabled={ ! this.props.radios["2.4GHz"].enabled} />
-                            <MenuItem value="5GHz" primaryText="5GHz" disabled={ ! this.props.radios["5GHz"].enabled} />
-                        </Field>
+                            <MenuItem value="5GHz" primaryText="5GHz" selected="selected" disabled={ ! this.props.radios["5GHz"].enabled} />
+                            <MenuItem value="1" primaryText="1" />
+                        </SelectField>
                     </div>
                     <div className="mui-fields">
-                        <Field
+                        <TextField
                             name="ssid"
-                            component={TextField}
                             floatingLabelText="SSID"
                             fullWidth
+                            value={profileSettings.ssid}
+                            onChange={ (event, value) => { handlers.save__profileSettings({ssid:value}); } }
                         />
-                        <Field
+                        <TextField
                             name="ssidBroadcast"
-                            component={Toggle}
-                            label="SSID Broadcast"
+                            floatingLabelText="SSID Broadcast"
+                            value={profileSettings.ssidBroadcast}
+                            onChange={ (event, value) => { handlers.save__profileSettings({ssidBroadcast:value}); } }
                         />
-                        <Field
+                        <TextField
                             name="clientIsolation"
-                            component={Toggle}
-                            label="Client Isolation"
+                            floatingLabelText="Client Isolation"
+                            value={profileSettings.clientIsolation}
+                            onChange={ (event, value) => { handlers.save__profileSettings({clientIsolation:value}); } }
                         />
                     </div>
                     <div className="mui-fields">
-                        <Field
+                        <SelectField
                             name="security"
-                            component={SelectField}
                             floatingLabelText="Security:"
                             fullWidth
+                            value={profileSettings.security}
+                            onChange={ (event, key, value) => { handlers.save__profileSettings({security:value}); } }
                         >
                             <MenuItem value="none" primaryText="None" />
                             <MenuItem value="wpa" primaryText="WPA" />
                             <MenuItem value="wpa2" primaryText="WPA2" />
                             <MenuItem value="vpa+wpa2" primaryText="WAP/WPA2 Mixed" />
-                        </Field>
+                        </SelectField>
                     </div>
                     <div className="mui-buttons">
                         <RaisedButton
@@ -65,6 +82,7 @@ class WirelessProfilesEdit extends React.PureComponent {
                             label="Add"
                             type="submit"
                             primary
+                            onClick={ ()=>{ handlers.profileAdd(profileSettings); } }
                         />
                     </div>
                 </form>
@@ -75,13 +93,7 @@ class WirelessProfilesEdit extends React.PureComponent {
 }
 //export default CSSModules(WirelessProfilesEdit, styles);
 
-export default reduxForm({
-    form: 'profile',
-    initialValues: {
-        radio: "2.4GHz",
-        ssid: "",
-        ssidBroadcast: true,
-        clientIsolation: false,
-        security: "none"
-    }
-})(WirelessProfilesEdit);
+// export default reduxForm({
+//     form: 'profile',
+//     initialValues: {}
+// })(WirelessProfilesEdit);

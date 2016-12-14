@@ -1,3 +1,7 @@
+/*
+    DUMB component - it don't know state
+*/
+
 import React from 'react';
 
 import Paper from 'material-ui/Paper';
@@ -20,13 +24,13 @@ export default class WirelessRadios extends React.PureComponent {
                     className="mui-fields mui-Toggle form-title"
                     label={ghz+" Radio "+(this.props.radios[ghz].enabled ? "Enabled" : "Disabled")}
                     toggled={this.props.radios[ghz].enabled}
-                    onToggle={ (event, value) => handlers.radioToggle(ghz, {enabled:value}) }
+                    onToggle={ (event, value) => handlers.save__radio(ghz, {enabled:value}) }
                 />
                 <SelectField
                     className="mui-fields mui-SelectField"
                     floatingLabelText={ghz+" Channel:"}
                     value={this.props.radios[ghz].channel}
-                    onChange={ (event, key, value) => { handlers.radioChannel(ghz, {channel:value}) } }
+                    onChange={ (event, key, value) => { handlers.save__radio(ghz, {channel:value}) } }
                     fullWidth
                     disabled={ ! this.props.radios[ghz].enabled}
                 >
@@ -36,7 +40,7 @@ export default class WirelessRadios extends React.PureComponent {
                     className="mui-fields mui-SelectField"
                     floatingLabelText={ghz+" Width:"}
                     value={this.props.radios[ghz].width}
-                    onChange={ (event, key, value) => { handlers.radioWidth(ghz, {width:value}) } }
+                    onChange={ (event, key, value) => { handlers.save__radio(ghz, {width:value}) } }
                     fullWidth
                     disabled={ ! this.props.radios[ghz].enabled}
                 >

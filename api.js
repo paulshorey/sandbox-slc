@@ -151,26 +151,30 @@ process.app.put('/api/0', function(request, response) {
                         function(error) {
                             if (!error) {
                                 // success
+                                var message = "Successfully written to \""+filename+"\"";
                                 response.writeHead(200);
                                 response.write(JSON.stringify({
                                     data: [
                                         {}
+                                    ],
+                                    message: [
+                                        message
                                     ],
                                     error: 0
                                 }, null, "\t"));
                                 response.end();
                             } else {
                                 // error
-                                var errorValue = "Couldn't write file "+request.body.jsonKey+".json";
+                                var message = "Couldn't write file "+request.body.jsonKey+".json";
                                 response.writeHead(500);
                                 response.write(JSON.stringify({
                                     message: [
-                                        errorValue
+                                        message
                                     ],
                                     error: 1
                                 }, null, "\t"));
                                 response.end();
-                                process.console.error(errorValue);
+                                process.console.error(message);
                             }
                         }
                     );

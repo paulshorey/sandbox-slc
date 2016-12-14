@@ -3,6 +3,16 @@
 sudo /opt/letsencrypt/letsencrypt-auto renew
 /etc/init.d/nginx reload
 
+
+
+
+# *** SSL CERTIFICATE + NGINX PROXY SERVER ***
+
+
+# https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-14-04#step-2-—-obtain-a-certificate
+
+
+# vim /etc/nginx/sites-available/default
 # server {
 #         listen 80;
 #         listen [::]:80;
@@ -43,3 +53,12 @@ sudo /opt/letsencrypt/letsencrypt-auto renew
 #         }
 
 # }
+
+
+# // comment out  ssl_certificate lines in above file below running this:
+# sudo certbot-auto certonly -a webroot --webroot-path=/www/html -d sslcs.us -d www.sslcs.us
+
+
+# // then run this weekly:
+# sudo /opt/letsencrypt/letsencrypt-auto renew
+# /etc/init.d/nginx reload

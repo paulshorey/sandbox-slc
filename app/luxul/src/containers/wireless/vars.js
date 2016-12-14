@@ -95,6 +95,13 @@ export const initialState = {
             }
         }
     },
+    profileSettings: {
+        radio: "2.4GHz",
+        ssid: "",
+        ssidBroadcast: "",
+        clientIsolation: "",
+        security: "wpa2"
+    },
     profiles: [
         {
             radio: "2.4GHz",
@@ -104,5 +111,5 @@ export const initialState = {
             security: "wpa2"
         }
     ],
-    profileDeleteConfirm: false,
+    profileDeleteConfirming: false,
 }; 

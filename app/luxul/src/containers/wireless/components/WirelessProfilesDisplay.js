@@ -1,3 +1,7 @@
+/*
+    DUMB component - it don't know state
+*/
+
 import React from 'react';
 
 import Paper from 'material-ui/Paper';
@@ -9,18 +13,18 @@ import FlatButton from 'material-ui/FlatButton';
 
 export default class ProfileTable extends React.PureComponent {
     render() {
-        const { profiles, handlers, profileDeleteConfirm } = this.props;
+        const { profiles, handlers, profileDeleteConfirming } = this.props;
         const DeleteDialogActions = [
             <FlatButton
                 label="Cancel"
                 default={true}
-                onTouchTap={() => { handlers.profileDeleteCancel(profileDeleteConfirm); } }
+                onTouchTap={() => { handlers.profileDeleteCancel(profileDeleteConfirming); } }
               />,
               <FlatButton
                 label="Delete"
                 secondary={true}
                 keyboardFocused={true}
-                onTouchTap={() => { handlers.profileDelete(profileDeleteConfirm); } }
+                onTouchTap={() => { handlers.profileDelete(profileDeleteConfirming); } }
               />
         ];
 
@@ -70,10 +74,10 @@ export default class ProfileTable extends React.PureComponent {
                     title="Delete Radio"
                     actions={DeleteDialogActions}
                     modal={false}
-                    open={ profileDeleteConfirm!==false }
+                    open={ profileDeleteConfirming!==false }
                     onRequestClose={this.s}
                     >
-                    Are you sure you want to delete radio "{profileDeleteConfirm!==false ? profiles[profileDeleteConfirm].radio : ''}"?
+                    Are you sure you want to delete radio "{profileDeleteConfirming!==false ? profiles[profileDeleteConfirming].radio : ''}"?
                 </Dialog>
 
             </Paper>

@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 import AppTop from './../app/components/AppTop';
 import AppBottom from './../app/components/AppBottom';
 
-//import { setRadioEnabled, setRadioChannel, setRadioWidth, addProfile, profileDelete } from '../../redux/stream';
+//import { setRadioEnabled, setRadioChannel, setRadioWidth, profileAdd, profileDelete } from '../../redux/stream';
 import './css/layout.scss';
 
 // layout

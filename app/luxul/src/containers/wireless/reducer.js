@@ -2,55 +2,49 @@ import * as vars from './vars';
 
 export default function wirelessReducer(state = vars.initialState, action = {}) {
     switch (action.type) {
-        case vars.container+'/RADIO_SET_ENABLED':
+
+        case vars.container+'/save__radio':
         {
-            const { radio, enabled } = action;
-            // edit
-            state.radios[radio].enabled = enabled;
-            state.radios.all.enabled = false;
-            for(let r in state.radios) {
-                if (state.radios[r].enabled) {
-                    state.radios.all.enabled = true;
-                    break;
+            const { radio, options } = action;
+            // filter
+            if (options.enabled !== undefined) {
+                state.radios[radio].enabled = options.enabled;
+                state.radios.all.enabled = false;
+                for(let r in state.radios) {
+                    if (state.radios[r].enabled) {
+                        state.radios.all.enabled = true;
+                        break;
+                    }
                 }
             }
             // save
-            return {
-                ...state,
-                radios: {
-                    ...state.radios
-                }
-            }
-        }
-        case vars.container+'/RADIO_SET_CHANNEL':
-        {
-            const { radio, channel } = action;
-            return {
+            var save = {
                 ...state,
                 radios: {
                     ...state.radios,
                     [radio]: {
                         ...state.radios[radio],
-                        channel: channel
+                        ...options
                     }
                 }
             }
+            return save;
         }
-        case vars.container+'/RADIO_SET_WIDTH':
+
+        case vars.container+'/save__profileSettings':
         {
-            const { radio, width } = action;
-            return {
+            const { profileSettings } = action;
+            var save = {
                 ...state,
-                radios: {
-                    ...state.radios,
-                    [radio]: {
-                        ...state.radios[radio],
-                        width: width
-                    }
+                profileSettings: {
+                    ...state.profileSettings,
+                    ...profileSettings
                 }
             }
+            return save;
         }
-        case vars.container+'/PROFILE_ADD':
+
+        case vars.container+'/profileAdd':
         {
             const { profile } = action;
             return {
@@ -61,6 +55,7 @@ export default function wirelessReducer(state = vars.initialState, action = {}) 
                 ]
             }
         }
+
         case vars.container+'/PROFILE_DELETE_CONFIRM':
         {
             const { profileIndex } = action;

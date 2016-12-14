@@ -1,3 +1,7 @@
+/*
+    SMART component - it does mapStateToProps
+*/
+
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -12,7 +16,7 @@ import './css/layout.scss';
 
 class Wireless extends React.PureComponent {
     render() {
-        const { profiles, radios, dispatch, profileDeleteConfirm } = this.props;
+        const { profiles, radios, dispatch, profileSettings, profileDeleteConfirming } = this.props;
         let actions = require('./actions');
         const events = actions.events.call({});
         const handlers = actions.handlers.call({ events, dispatch });
@@ -27,15 +31,17 @@ class Wireless extends React.PureComponent {
                     />
                     <WirelessProfilesEdit
                         radios={radios}
-                        onSubmit={ (profile) => dispatch(events.addProfile(profile)) }
+                        events={events}
+                        handlers={handlers}
+                        profileSettings={profileSettings}
                     />
                 </div>
                 <WirelessProfilesDisplay
                     className="section sectionWireless section1"
-                    profileDeleteConfirm={profileDeleteConfirm}
                     profiles={profiles}
                     events={events}
                     handlers={handlers}
+                    profileDeleteConfirming={profileDeleteConfirming}
                 />
                 <AppBottom />
             </div>
@@ -49,7 +55,8 @@ const mapStateToProps = (state) => {
     return {
         radios: state.wireless.radios,
         profiles: state.wireless.profiles,
-        profileDeleteConfirm: state.wireless.profileDeleteConfirm,
+        profileSettings: state.wireless.profileSettings,
+        profileDeleteConfirming: state.wireless.profileDeleteConfirming,
     };
 };
 export default connect(mapStateToProps)(Wireless);

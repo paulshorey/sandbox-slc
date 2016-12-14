@@ -6,14 +6,17 @@ import * as vars from './vars';
 export function handlers(){
 	return {
 		...this,
-		radioToggle: function(radio, options) { 
-			this.dispatch(this.events.setRadioEnabled(radio, options))
+
+		save__radio: function(radio, options) { 
+			this.dispatch(this.events.save__radio(radio, options))
 		},
-		radioChannel: function(radio, options) { 
-			this.dispatch(this.events.setRadioChannel(radio, options))
+		save__profileSettings: function(profileSettings) { 
+			console.log('profileSettings',profileSettings);
+			this.dispatch(this.events.save__profileSettings(profileSettings))
 		},
-		radioWidth: function(radio, options) { 
-			this.dispatch(this.events.setRadioWidth(radio, options)) 
+
+		profileAdd: function(i) { 
+			this.dispatch(this.events.profileAdd(i)) 
 		},
 		profileDelete: function(i) { 
 			this.dispatch(this.events.profileDelete(i)) 
@@ -23,10 +26,7 @@ export function handlers(){
 		},
 		profileDeleteConfirm: function(i) { 
 			this.dispatch(this.events.profileDeleteConfirm(i)) 
-		},
-		// addProfile: function(profile) { 
-		// 	this.dispatch(this.events.addProfile(profile)) 
-		// }
+		}
 	}
 };
 
@@ -36,30 +36,24 @@ export function handlers(){
 export function events(){
 	return {
 		...this,
-		setRadioEnabled: function(radio, options) { 
+
+		save__radio: function(radio, options) { 
 			return {
-				type: vars.container + '/RADIO_SET_ENABLED',
+				type: vars.container + '/save__radio',
 				radio,
-				enabled: options.enabled
+				options
 			}
 		},
-		setRadioChannel: function(radio, options) { 
+		save__profileSettings: function(profileSettings) { 
 			return {
-				type: vars.container + '/RADIO_SET_CHANNEL',
-				radio,
-				channel: options.channel
+				type: vars.container + '/save__profileSettings',
+				profileSettings
 			}
 		},
-		setRadioWidth: function(radio, options) { 
+
+		profileAdd: function(profile) { 
 			return {
-				type: vars.container + '/RADIO_SET_WIDTH',
-				radio,
-				width: options.width
-			}
-		},
-		addProfile: function(profile) { 
-			return {
-				type: vars.container + '/PROFILE_ADD',
+				type: vars.container + '/profileAdd',
 				profile
 			}
 		},
